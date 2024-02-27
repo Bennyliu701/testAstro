@@ -1,5 +1,8 @@
 ---
 import '../styles/global.css';
+// 可复用组件
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
 
 // 定义和使用变量
 interface Props {
@@ -20,14 +23,9 @@ const { title } = Astro.props;
 		<title>{title}</title>
 	</head>
 	<body>
-		<main>
-			<nav>
-				<a href="/">首页</a>
-				<a href="/about/">关于</a>
-				<a href="/blog/">博客</a>
-			</nav>
-		</main>
+		<Header />
 		<slot />
+		<Footer/>
 	</body>
 </html>
 
