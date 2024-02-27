@@ -1,4 +1,6 @@
 ---
+import '../styles/global.css';
+
 // 定义和使用变量
 interface Props {
 	title: string;
@@ -28,6 +30,8 @@ const { title } = Astro.props;
 		<slot />
 	</body>
 </html>
+
+<!-- 全局样式的第二种使用方式 -->
 <style is:global>
 	:root {
 		--accent: 136, 58, 234;
