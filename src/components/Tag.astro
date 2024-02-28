@@ -1,0 +1,95 @@
+---
+const allPosts = await Astro.glob('../pages/posts/*.md');
+const myTags = [...new Set(allPosts.map((post) => post.frontmatter.tags).flat())];
+console.log('myTags', myTags)
+
+// [...new Set(array)] 方法是用于去除数组中的重复基本类型元素（如字符串、数字等），它并不能直接用于去除包含对象的数组中的重复对象。这是因为在 JavaScript 中，对象是引用类型，即使两个对象包含完全相同的属性和值，它们在内存中也是两个不同的引用。Set 对象会根据这些引用来判断对象是否重复，而不是根据对象的内容。
+
+// 要想去重数组中的对象，需要自定义去重逻辑，例如，可以通过以下步骤进行：
+
+// 定义一个新的空数组 uniqueArray。
+// 遍历原数组，对于每个对象，将其转化为一个字符串（例如，通过 JSON.stringify），然后检查该字符串是否已经存在于一个临时的 Set 对象中。
+// 如果不存在，将字符串添加到 Set 对象中，并且将原对象添加到 uniqueArray 中。
+// 最终，uniqueArray 将包含去重后的对象数组。
+
+
+// 测试数组对象的去重
+const testArrA = [
+  {
+    tags: ['a', 'b']
+  },
+  {
+    tags: ['b', 'c']
+  },
+]
+const testArrB = [
+  {
+    tags: ['a', 'c']
+  },
+  {
+    tags: ['a', 'b']
+  },
+  {
+    tags: ['b', 'a']
+  }
+]
+
+const testArrC = testArrA.concat(testArrB)
+console.log('testArrC', testArrC)
+
+const testArrCC = [...new Set(testArrC)]
+console.log('testArrCC', testArrCC)
+
+const testArrD = [...new Set(testArrC.map((post) => post.tags).flat())];
+console.log('testArrD', testArrD)
+
+// 在这个示例中，comparator 函数用于生成代表每个对象的唯一字符串标识符。在这种情况下，由于我们关心的是 tags 数组的内容，所以我们将 tags 数组排序并转换为字符串，以确保不同顺序的相同标签被视为相同。请注意，这种方法假设对象中的 tags 属性是唯一标识对象的关键。如果对象更复杂，你可能需要一个更复杂的 comparator 函数来生成唯一标识符。
+
+function getUniqueArray(array, comparator) {
+  const unique = [] as any[];
+  const uniqueSet = new Set();
+
+  array.forEach((item) => {
+    const identifier = comparator(item);
+    console.log('item', item)
+    console.log('identifier', identifier)
+    if (!uniqueSet.has(identifier)) {
+      unique.push(item);
+      uniqueSet.add(identifier);
+    }
+  });
+
+  return unique;
+}
+
+const uniqueArray = getUniqueArray(testArrC, item => JSON.stringify(item.tags.sort()));
+
+console.log('uniqueArray2', uniqueArray);
+
+// 通过组建属性传递数据
+const { tags } = Astro.props;
+---
+
+<div>
+  {tags.map(tag => (<p class="tag"><a href={`/tags/${tag}`}>{tag}</a></p>))}
+</div>
+
+<style>
+  a {
+    color: #00539F;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    margin: 0.25em;
+    border: dotted 1px #a1a1a1;
+    border-radius: .5em;
+    padding: .5em 1em;
+    font-size: 1.15em;
+    background-color: #F8FCFD;
+  }
+</style>
