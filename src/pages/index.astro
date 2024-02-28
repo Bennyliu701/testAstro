@@ -1,6 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Card from '../components/Card.astro';
+import Greeting from '../components/Greeting';
+
 ---
 
 <Layout title="首页">
@@ -32,6 +34,11 @@ import Card from '../components/Card.astro';
 				body="Come say hi to our amazing Discord community. ❤️"
 			/>
 		</ul>
+
+		<!-- 查看你的页面并比较这两个组件。第二个按钮可工作，因为 client:load 指令告诉 Astro 在页面加载时将其 JavaScript 发送并重新运行到客户端上，使组件可交互。这称为 被 Hydrate 的 组件 -->
+		<!-- 还有其他的 client: 指令可以探索。每个指令在不同的时间将 JavaScript 发送到客户端。例如，client:visible 只会在组件在页面上可见时发送其 JavaScript。 -->
+		<Greeting messages={["Hi", "Hello", "Howdy", "Hey there"]} />
+		<Greeting client:load messages={["Hi", "Hello", "Howdy", "Hey there"]} />
 	</main>
 </Layout>
 

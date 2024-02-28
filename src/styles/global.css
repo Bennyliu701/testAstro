@@ -15,6 +15,14 @@ html {
   background: #13151a;
   background-size: 224px;
 }
+html.dark {
+  background-color: #0d0950;
+  color: #fff;
+}
+
+.dark .nav-links a {
+  color: #fff;
+}
 
 body {
   margin: 0 auto;
