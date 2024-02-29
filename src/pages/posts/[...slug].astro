@@ -1,0 +1,21 @@
+---
+import { getCollection } from 'astro:content';
+import MarkdownPostLayout from '../../layouts/MarkdownPostLayout.astro';
+
+// 动态页面路由-动态创建页面
+// 如果需要构建页面路由的信息，请将其编写在 getStaticPaths() 内部。
+// 要在页面路由的 HTML 模板中接收信息，请将其编写在 getStaticPaths() 外部。
+export async function getStaticPaths() {
+  const blogEntries = await getCollection('posts');
+  console.log('blogEntries', blogEntries)
+  return blogEntries.map(entry => ({
+    params: { slug: entry.slug }, props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+---
+<MarkdownPostLayout frontmatter={entry.data}>
+  <Content />
+</MarkdownPostLayout>

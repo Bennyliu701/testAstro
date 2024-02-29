@@ -1,7 +1,10 @@
 ---
-const allPosts = await Astro.glob('../pages/posts/*.md');
-const myTags = [...new Set(allPosts.map((post) => post.frontmatter.tags).flat())];
-console.log('myTags', myTags)
+import { getCollection } from "astro:content";
+const allPosts = await getCollection("posts");
+
+// const allPosts = await Astro.glob('../pages/posts/*.md');
+// const myTags = [...new Set(allPosts.map((post) => post.frontmatter.tags).flat())];
+// console.log('myTags', myTags)
 
 // [...new Set(array)] 方法是用于去除数组中的重复基本类型元素（如字符串、数字等），它并不能直接用于去除包含对象的数组中的重复对象。这是因为在 JavaScript 中，对象是引用类型，即使两个对象包含完全相同的属性和值，它们在内存中也是两个不同的引用。Set 对象会根据这些引用来判断对象是否重复，而不是根据对象的内容。
 
@@ -35,13 +38,13 @@ const testArrB = [
 ]
 
 const testArrC = testArrA.concat(testArrB)
-console.log('testArrC', testArrC)
+// console.log('testArrC', testArrC)
 
 const testArrCC = [...new Set(testArrC)]
-console.log('testArrCC', testArrCC)
+// console.log('testArrCC', testArrCC)
 
 const testArrD = [...new Set(testArrC.map((post) => post.tags).flat())];
-console.log('testArrD', testArrD)
+// console.log('testArrD', testArrD)
 
 // 在这个示例中，comparator 函数用于生成代表每个对象的唯一字符串标识符。在这种情况下，由于我们关心的是 tags 数组的内容，所以我们将 tags 数组排序并转换为字符串，以确保不同顺序的相同标签被视为相同。请注意，这种方法假设对象中的 tags 属性是唯一标识对象的关键。如果对象更复杂，你可能需要一个更复杂的 comparator 函数来生成唯一标识符。
 
@@ -51,8 +54,8 @@ function getUniqueArray(array, comparator) {
 
   array.forEach((item) => {
     const identifier = comparator(item);
-    console.log('item', item)
-    console.log('identifier', identifier)
+    // console.log('item', item)
+    // console.log('identifier', identifier)
     if (!uniqueSet.has(identifier)) {
       unique.push(item);
       uniqueSet.add(identifier);
@@ -64,7 +67,7 @@ function getUniqueArray(array, comparator) {
 
 const uniqueArray = getUniqueArray(testArrC, item => JSON.stringify(item.tags.sort()));
 
-console.log('uniqueArray2', uniqueArray);
+// console.log('uniqueArray2', uniqueArray);
 
 // 通过组建属性传递数据
 const { tags } = Astro.props;

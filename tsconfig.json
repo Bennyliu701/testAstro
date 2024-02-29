@@ -1,8 +1,10 @@
 {
-  "extends": "astro/tsconfigs/base",
+  "extends": "astro/tsconfigs/base", // 继承astro的tsconfig
   "compilerOptions": {
-    "jsx": "react-jsx",
-    "jsxImportSource": "preact"
+    "jsx": "react-jsx", // 使用react-jsx
+    "jsxImportSource": "preact", // 使用preact
+    "strictNullChecks": true, // 强制严格的空检查
+    "allowJs": true, // 允许编译js文件
   },
   "include": ["src/**/*"]
 }

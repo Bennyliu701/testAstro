@@ -1,8 +1,48 @@
 ---
+import { getCollection } from "astro:content";
 import Layout from '../layouts/Layout.astro';
 import BlogPost from '../components/BlogPost.astro';
 // 使用 Astro.glob() 一次性访问所有文章的数据
-const allPosts = await Astro.glob('../pages/posts/*.md');
+// const allPosts = await Astro.glob('../pages/posts/*.md');
+// allPosts [
+//   {
+//     frontmatter: [Getter],
+//     file: [Getter],
+//     url: [Getter],
+//     rawContent: [Getter],
+//     compiledContent: [Getter],
+//     getHeadings: [Getter],
+//     Content: [Getter],
+//     default: [Function (anonymous)] {
+//       isAstroComponentFactory: true,
+//       moduleId: undefined,
+//       propagation: undefined
+//     },
+//     [Symbol(Symbol.toStringTag)]: 'Module'
+//   },
+// ...
+// ]
+
+const allPosts = await getCollection("posts");
+// console.log('allPosts', allPosts)
+// allPosts [
+//   {
+//     id: 'learning-astro.md',
+//     slug: 'learning-astro',
+//     body: 'I learned so much today! Astro allows me to write in Markdown, but also use variables from the frontmatter. I can even access those values in an Astro layout component.\n',
+//     collection: 'posts',
+//     data: {
+//       title: 'Learning About Markdown in Astro',
+//       pubDate: 2022-08-08T00:00:00.000Z,
+//       description: 'description',
+//       author: 'Astro Learner',
+//       image: [Object],
+//       tags: [Array]
+//     },
+//     render: [AsyncFunction: render]
+//   },
+// ...
+// ]
 const title = "我的 Astro 学习博客";
 ---
 
@@ -25,7 +65,11 @@ const title = "我的 Astro 学习博客";
 			))} -->
 
 			<!-- 重构以使用 <BlogPost /> 组件来显示每个列表项 -->
-			{allPosts.map((post) => <BlogPost url={post.url} title={post.frontmatter.title} />)}
+		  {
+				allPosts.map((post: any) => (
+					<BlogPost url={`/posts/${post.slug}/`} title={post.data.title} />
+				))
+			}
     </ul>
   </main>
 </Layout>

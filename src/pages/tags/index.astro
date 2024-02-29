@@ -1,14 +1,18 @@
 ---
+import { getCollection } from "astro:content";
 import Layout from '../../layouts/Layout.astro';
-const allPosts = await Astro.glob('../posts/*.md');
+// const allPosts = await Astro.glob('../posts/*.md');
 // const tags = ['astro', 'blogging', 'learning in public', 'successes', 'setbacks', 'community']
-const tags = [...new Set(allPosts.map((post) => post.frontmatter.tags).flat())];
+// const uniqueTags = [...new Set(allPosts.map((post) => post.frontmatter.tags).flat())];
+const allPosts = await getCollection("posts");
+const uniqueTags = [...new Set(allPosts.map((post) => post.data.tags).flat())];
+
 const title = "Tag Index";
 ---
 <Layout title={title}>
   <main>
     <div>
-      {tags.map((tag) => (
+      {uniqueTags.map((tag) => (
         <p class="tag"><a href={`/tags/${tag}`}>{tag}</a></p>
       ))}
     </div>
