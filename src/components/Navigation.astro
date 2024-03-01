@@ -3,6 +3,8 @@
 
 <div class="nav-links">
   <a href="/">首页</a>
-  <a href="/about/">关于</a>
+  <!-- 为某些链接设置强制浏览器重新加载页面 -->
+  <!-- 为了确保每次点击页眉导航链接转到关于页面时浏览器都会刷新，请在 <Navigation /> 组件中的 <a> 标签上添加 data-astro-reload 属性。这将完全覆盖 <ViewTransitions /> 路由器，同时今后对于这个链接，任何视图过渡动画都将被忽略 -->
+  <a href="/about/" data-astro-reload>关于</a>
   <a href="/blog/">博客</a>
 </div>
